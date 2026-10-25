@@ -3,6 +3,7 @@
 ## Notes: Hover an item in your bags and press Space to mark it as junk or a favorite, or Shift+Space to set it aside for the auction house.
 ## Author: Astreae
 ## Version: @project-version@
+## X-Curse-Project-ID: 1765511
 ## IconTexture: Interface\AddOns\MothersPurse\media\Icon
 ## X-License: All Rights Reserved
 ## Category: Inventory

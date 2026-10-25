@@ -1,7 +1,7 @@
 # Mother's Purse
 
-A World of Warcraft (Midnight) addon for marking items in your bags the way
-Diablo IV does it: hover an item and press a key.
+A World of Warcraft (Midnight) addon for ARPG/Diablo-style item marking in
+your bags: hover an item and press a key.
 
 ## What it does
 

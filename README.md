@@ -7,7 +7,8 @@ your bags: hover an item and press a key.
 
 - **Space marks the item under your mouse.** Each press steps through junk,
   favorite and back to regular. Shift+Space sets the item aside for the
-  auction house, or takes it back off.
+  auction house, or takes it back off. To start with favorite, pick it under First
+  press marks in settings.
 - **Marks show on the item.** Junk is greyed out with a torn slash across it,
   favorites get a blue bookmark in the top left corner, and auction items a
   gold coin in the top right.

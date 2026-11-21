@@ -25,8 +25,9 @@ ns.MEDIA = "Interface\\AddOns\\" .. ADDON_NAME .. "\\media\\"
 ns.JUNK, ns.FAVORITE, ns.AUCTION, ns.REGULAR = "junk", "fav", "auction", "regular"
 ns.MARK_LABELS = { junk = "Junk", fav = "Favorite", auction = "Auction" }
 
--- Space steps through these in order, then back to regular.
-local CYCLE = { ns.JUNK, ns.FAVORITE }
+-- Space steps through one of these in order, then back to regular.
+local JUNK_FIRST = { ns.JUNK, ns.FAVORITE }
+local FAV_FIRST = { ns.FAVORITE, ns.JUNK }
 
 -- Backpack, the four bags and the reagent bag. Selling only looks here.
 ns.FIRST_BAG = Enum.BagIndex.Backpack
@@ -44,6 +45,7 @@ local DEFAULTS = {
   ahGlow     = true,   -- auction items glow while the auction house is open
   autoSell   = true,   -- sell junk as a vendor opens (only with BetterBags' seller)
   forgetDays = 90,     -- forget marks on gear not seen in this many days, 0 = never
+  firstMark  = "junk", -- what the first press marks, junk or fav
 }
 
 local db
@@ -261,11 +263,16 @@ end
 -- Marking the hovered item
 -------------------------------------------------------------------------------
 
+local function Cycle()
+  return db.firstMark == ns.FAVORITE and FAV_FIRST or JUNK_FIRST
+end
+
 local function NextInCycle(mark)
-  for i, m in ipairs(CYCLE) do
-    if m == mark then return CYCLE[i + 1] end   -- nil after the last = regular
+  local cycle = Cycle()
+  for i, m in ipairs(cycle) do
+    if m == mark then return cycle[i + 1] end   -- nil after the last = regular
   end
-  return CYCLE[1]   -- regular or auction start the cycle over at junk
+  return cycle[1]   -- regular or auction start the cycle over
 end
 
 local hovered   -- { bag = n, slot = n } while the tooltip shows a bag item
@@ -516,8 +523,8 @@ end)
 local function ShowHelp()
   local version = (C_AddOns and C_AddOns.GetAddOnMetadata and C_AddOns.GetAddOnMetadata(ADDON_NAME, "Version")) or "?"
   local counts = ns.CountMarks()
-  ns.Print("v%s. Hover a bag item: %s cycles junk, favorite, regular. Shift+%s toggles auction.",
-    version, GetBindingText(db.key), GetBindingText(db.key))
+  ns.Print("v%s. Hover a bag item: %s cycles %s, regular. Shift+%s toggles auction.",
+    version, GetBindingText(db.key), db.firstMark == ns.FAVORITE and "favorite, junk" or "junk, favorite", GetBindingText(db.key))
   print(("  marked: %d junk, %d favorite, %d auction"):format(counts.junk, counts.fav, counts.auction))
   print("  /purse config - open the settings page")
   print("  /purse toggle - turn marking on or off")

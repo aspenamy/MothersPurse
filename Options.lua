@@ -44,6 +44,18 @@ local function BuildOptionsPage()
       "Press it over a bag item to cycle junk, favorite and regular. Hold Shift with it to toggle auction. It only takes over the key while you're pointing at your bags.")
   end
 
+  do
+    local setting = Register("firstMark", "First press marks", ns.JUNK)
+    local function GetOptions()
+      local container = Settings.CreateControlTextContainer()
+      container:Add(ns.JUNK, "Junk")
+      container:Add(ns.FAVORITE, "Favorite")
+      return container:GetData()
+    end
+    Settings.CreateDropdown(category, setting, GetOptions,
+      "What the first press of the mark key does.")
+  end
+
   Settings.CreateCheckbox(category, Register("hints", "Show key hints on tooltips", true),
     "Adds a line to the bottom of bag item tooltips saying what the key will do, like Mark as junk.")
   Settings.CreateCheckbox(category, Register("sound", "Sound when marking", true),
